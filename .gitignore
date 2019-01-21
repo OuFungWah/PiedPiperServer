@@ -1,0 +1,5 @@
+# 忽略idea自带文件
+.idea/
+
+# 忽略AppKey相关文件
+src/main/java/com/crazywah/common/NIMInfo.java
