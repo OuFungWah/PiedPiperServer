@@ -10,6 +10,10 @@ public class ResponseStateCode {
      */
     public static final int CODE_201 = 201;
     /**
+     * 操作失败
+     */
+    public static final int CODE_202 = 202;
+    /**
      * 被封禁
      */
     public static final int CODE_301 = 301;
@@ -211,12 +215,19 @@ public class ResponseStateCode {
      */
     public static final int CODE_10441 = 10441;
 
+    /**
+     * 数据库操作失败
+     */
+    public static final int CODE_14001 = 14001;
+
     public static String getMessageByCode(int code) {
         switch (code) {
             case CODE_200:
                 return "操作成功";
             case CODE_201:
                 return "客户端版本不对，需升级sdk";
+            case CODE_202:
+                return "操作失败";
             case CODE_301:
                 return "被封禁";
             case CODE_302:
@@ -261,10 +272,6 @@ public class ResponseStateCode {
                 return "无效协议";
             case CODE_514:
                 return "服务不可用";
-            case CODE_998:
-                return "解包错误";
-            case CODE_999:
-                return "打包错误";
             case CODE_801:
                 return "群人数达到上限";
             case CODE_802:
@@ -285,20 +292,14 @@ public class ResponseStateCode {
                 return "已经在群内";
             case CODE_810:
                 return "邀请成功";
+            case CODE_998:
+                return "解包错误";
+            case CODE_999:
+                return "打包错误";
             case CODE_9102:
                 return "通道失效";
             case CODE_9103:
                 return "已经在他端对这个呼叫响应过了";
-            case CODE_11001:
-                return "通话不可达，对方离线状态";
-            case CODE_13001:
-                return "IM主连接状态异常";
-            case CODE_13002:
-                return "聊天室状态异常";
-            case CODE_13003:
-                return "账号在黑名单中,不允许进入聊天室";
-            case CODE_13004:
-                return "在禁言列表中,不允许发言";
             case CODE_10431:
                 return "输入email不是邮箱";
             case CODE_10432:
@@ -317,6 +318,18 @@ public class ResponseStateCode {
                 return "手机号已注册";
             case CODE_10441:
                 return "app名字已经存在";
+            case CODE_11001:
+                return "通话不可达，对方离线状态";
+            case CODE_13001:
+                return "IM主连接状态异常";
+            case CODE_13002:
+                return "聊天室状态异常";
+            case CODE_13003:
+                return "账号在黑名单中,不允许进入聊天室";
+            case CODE_13004:
+                return "在禁言列表中,不允许发言";
+            case CODE_14001:
+                return "数据库操作失败";
             default:
                 return "";
         }

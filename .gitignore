@@ -3,3 +3,5 @@
 
 # 忽略AppKey相关文件
 src/main/java/com/crazywah/common/NIMInfo.java
+
+src/main/resources/application.properties

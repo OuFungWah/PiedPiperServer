@@ -7,15 +7,18 @@ public class NIMCreateAccount extends RequestBase{
 
     /**
      * 返回状态吗 200、403、414、416、431、500
+     *
+     * {"desc":"already register","code":414}
+     *
+     * {"code":200,"info":{"token":"123456","accid":"admin1","name":"admin1"}}
+     *
      * @param accountId
      * @param nickName
-     * @param token
      * @return
      */
-    public String request(@NonNull String accountId,@NonNull String nickName,@NonNull String token){
+    public String request(@NonNull String accountId,@NonNull String nickName){
         params.add("accid",accountId);
         params.add("name",nickName);
-        params.add("token",token);
         return requestToNIM();
     }
 
