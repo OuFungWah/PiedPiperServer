@@ -27,7 +27,10 @@ public interface IUserDao {
     })
     List<User> selectAllUser() throws SQLException;
 
-    @Select("select * from user where token = #{token}")
+    @Select("select account_id from user where token = #{token}")
+    @Results({
+            @Result(property = "accountId", column = "account_id")
+    })
     User getUserByToken(@Param("token")String token) throws SQLException;
 
     @Select("select a.account_id, a.nickname, a.gender, a.signature, a.address, a.email, a.mobile, a.birthday, b.alias, b.remark, b.friend_time, b.relation from user a left join friendship b on a.account_id = b.target_id where a.account_id in (select target_id from friendship where origin_id = (select account_id from user where token = #{token})) and b.relation = #{relation}")
