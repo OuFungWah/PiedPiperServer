@@ -27,7 +27,7 @@ public interface IUserDao {
     })
     List<User> selectAllUser() throws SQLException;
 
-    @Select("select account_id from user where token = #{token}")
+    @Select("select account_id, nickname from user where token = #{token}")
     @Results({
             @Result(property = "accountId", column = "account_id")
     })
@@ -44,12 +44,23 @@ public interface IUserDao {
     TokenBean getToken(@Param("accountId")String accountId, @Param("password")String password) throws SQLException;
 
     @Select("select account_id,nickname,gender,signature from user where account_id = #{accountId}")
+    @Results({
+            @Result(property = "accountId",column = "account_id")
+    })
     User getUserBaseInfoByAccount(String accountId) throws SQLException;
 
     @Select("select a.account_id, a.nickname, a.gender, a.signature, a.address, a.email, a.mobile, a.birthday, b.alias, b.relation, b.remark, b.request_time,b.request_message from user a left join friendship b on a.account_id = b.target_id where a.account_id = #{account_id} and b.origin_id = (select account_id from user where token = #{token})")
+    @Results({
+            @Result(property = "accountId",column = "a.account_id"),
+            @Result(property = "requestTime",column = "b.request_time"),
+            @Result(property = "requestMessage",column = "b.request_message")
+    })
     User getUserFullInfo(@Param("token") String token, @Param("account_id") String accountId) throws SQLException;
 
     @Select("select account_id,nickname,token from user where account_id = #{accountId} AND password = #{password}")
+    @Results({
+            @Result(property = "accountId",column = "account_id")
+    })
     User getUserByAccountPassword(User user) throws SQLException;
 
     @Update("update user set password = #{password} where token = #{token}")

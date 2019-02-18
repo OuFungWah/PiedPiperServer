@@ -121,7 +121,7 @@ public class AccountController {
     /**
      * 请求示例
      * {
-     * "accountId":"oufenghua",
+     * "accid":"oufenghua",
      * "password":"123456"
      * }
      *
@@ -133,7 +133,7 @@ public class AccountController {
         ResponseBase<User> responseBase = new ResponseBase<>();
         NIMBean.Info info = gson.fromJson(body, NIMBean.Info.class);
         User user = new User();
-        user.setNickname(info.getAccid());
+        user.setAccountId(info.getAccid());
         user.setPassword(info.getPassword());
         try {
             user = userService.getUserByAccountPassword(user);
@@ -146,6 +146,7 @@ public class AccountController {
                     //刷新 Token 成功
                     user.setToken(bean.getInfo().getToken());
                     userService.updateToken(user);
+                    responseBase.setStatus(ResponseStateCode.CODE_200);
                     responseBase.setResult(user);
                 } else {
                     responseBase.setStatus(bean.getCode());

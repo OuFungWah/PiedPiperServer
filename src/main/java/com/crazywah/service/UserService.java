@@ -3,10 +3,12 @@ package com.crazywah.service;
 import com.crazywah.bean.TokenBean;
 import com.crazywah.dao.IUserDao;
 import com.crazywah.entity.User;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class UserService {
 
     private static final String TAG = "UserService";
