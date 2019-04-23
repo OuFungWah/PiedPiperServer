@@ -79,18 +79,35 @@ public class User implements Serializable {
      * 附注信息
      */
     private String remark;
-    /**
-     * 请求好友时间
-     */
-    private Date requestTime;
+
     /**
      * 添加为好友的时间
      */
     private Date friendTime;
+
+    /*-------以下属性来自好友请求表-------*/
+
+
+    /**
+     * 请求状态
+     */
+    private int requestStatus;
     /**
      * 请求信息
      */
     private String requestMessage;
+    /**
+     * 请求好友时间
+     */
+    private Date requestTime;
+
+    public int getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(int requestStatus) {
+        this.requestStatus = requestStatus;
+    }
 
     public long getMemberId() {
         return memberId;

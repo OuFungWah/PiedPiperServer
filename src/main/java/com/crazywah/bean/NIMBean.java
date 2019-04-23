@@ -5,6 +5,7 @@ import java.util.Date;
 public class NIMBean {
 
     private int code;
+    private String desc;
     private Info info;
 
     public int getCode() {
@@ -21,6 +22,14 @@ public class NIMBean {
 
     public void setInfo(Info info) {
         this.info = info;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public class Info{

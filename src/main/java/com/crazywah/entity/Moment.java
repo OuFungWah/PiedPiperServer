@@ -16,6 +16,8 @@ import java.util.Date;
  */
 public class Moment {
 
+    private String avatar;
+    private String nickname;
     private int momentId;
     private String accountId;
     private Date postTime;
@@ -24,6 +26,40 @@ public class Moment {
     private String blackList;
     private String whiteList;
     private String photoList;
+    private int likeCount;
+    private int commentCount;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
 
     public int getMomentId() {
         return momentId;

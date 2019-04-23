@@ -34,12 +34,13 @@ public class UserController {
 
     /**
      * 根据关系筛选出获取用户列表
-     *
+     * <p>
      * header 需要添加 token
-     *
+     * <p>
      * {
-     *     "relation":0
+     * "relation":0
      * }
+     *
      * @param body
      * @param httpHeaders
      * @return
@@ -47,16 +48,16 @@ public class UserController {
     @PostMapping("/getUsersByRelation")
     public String getFriends(@RequestBody String body, @RequestHeader HttpHeaders httpHeaders) {
         ResponseBase<List<User>> responseBase = new ResponseBase<>();
-        if(httpHeaders.containsKey("token")){
+        if (httpHeaders.containsKey("token")) {
             String token = httpHeaders.get("token").get(0);
             if (!TextUtils.isEmpty(token)) {
                 QueryParam param = gson.fromJson(body, QueryParam.class);
                 try {
-                    if (userService.getUserByToken(token)!=null){
+                    if (userService.getUserByToken(token) != null) {
                         List<User> users = userService.getUsers(token, param.getRelation());
                         responseBase.setStatus(ResponseStateCode.CODE_200);
                         responseBase.setResult(users);
-                    }else{
+                    } else {
                         responseBase.setStatus(ResponseStateCode.CODE_202);
                         responseBase.setMessage("token验证错误");
                     }
@@ -69,7 +70,52 @@ public class UserController {
                 responseBase.setStatus(ResponseStateCode.CODE_202);
                 responseBase.setMessage("参数有误");
             }
-        }else{
+        } else {
+            responseBase.setStatus(ResponseStateCode.CODE_202);
+            responseBase.setMessage("缺少token");
+        }
+        return gson.toJson(responseBase);
+    }
+
+    /**
+     * 根据关系筛选出获取用户列表
+     * <p>
+     * header 需要添加 token
+     * <p>
+     * {
+     * "accid":"xxxx"
+     * }
+     *
+     * @param body
+     * @param httpHeaders
+     * @return
+     */
+    @PostMapping("/searchStrangers")
+    public String searchStrangers(@RequestBody String body, @RequestHeader HttpHeaders httpHeaders) {
+        ResponseBase<List<User>> responseBase = new ResponseBase<>();
+        if (httpHeaders.containsKey("token")) {
+            String token = httpHeaders.get("token").get(0);
+            if (!TextUtils.isEmpty(token)) {
+                QueryParam param = gson.fromJson(body, QueryParam.class);
+                try {
+                    if (userService.getUserByToken(token) != null) {
+                        List<User> users = userService.getStrangers(param.getAccid());
+                        responseBase.setStatus(ResponseStateCode.CODE_200);
+                        responseBase.setResult(users);
+                    } else {
+                        responseBase.setStatus(ResponseStateCode.CODE_202);
+                        responseBase.setMessage("token验证错误");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    responseBase.setStatus(ResponseStateCode.CODE_14001);
+                    responseBase.setMessage(e.getSQLState());
+                }
+            } else {
+                responseBase.setStatus(ResponseStateCode.CODE_202);
+                responseBase.setMessage("参数有误");
+            }
+        } else {
             responseBase.setStatus(ResponseStateCode.CODE_202);
             responseBase.setMessage("缺少token");
         }
@@ -78,23 +124,24 @@ public class UserController {
 
     /**
      * 根据关系获取用户信息
-     *
+     * <p>
      * header 需要添加 token
      * {
-     *     "accid":"xxx"
+     * "accid":"xxx"
      * }
+     *
      * @return
      */
     @RequestMapping("/getSingleUserById")
-    public String getUser(@RequestBody String body, @RequestHeader HttpHeaders httpHeaders){
+    public String getUser(@RequestBody String body, @RequestHeader HttpHeaders httpHeaders) {
         ResponseBase<User> responseBase = new ResponseBase<>();
-        if(httpHeaders.containsKey("token")){
+        if (httpHeaders.containsKey("token")) {
             String token = httpHeaders.get("token").get(0);
             if (!TextUtils.isEmpty(token)) {
                 QueryParam param = gson.fromJson(body, QueryParam.class);
-                if(!TextUtils.isEmpty(param.getAccid())){
-                    try{
-                        if (userService.getUserByToken(token)!=null) {
+                if (!TextUtils.isEmpty(param.getAccid())) {
+                    try {
+                        if (userService.getUserByToken(token) != null) {
                             User user;
                             FriendShip friendShip = friendshipService.getFriendShip(token, param.getAccid());
                             if (friendShip == null || friendShip.getRelation() == FriendShip.STRANGER || friendShip.getRelation() == FriendShip.BLACK_LIST) {
@@ -106,15 +153,15 @@ public class UserController {
                             }
                             responseBase.setStatus(ResponseStateCode.CODE_200);
                             responseBase.setResult(user);
-                        }else {
+                        } else {
                             responseBase.setStatus(ResponseStateCode.CODE_202);
                             responseBase.setMessage("token验证错误");
                         }
-                    }catch (SQLException e){
+                    } catch (SQLException e) {
                         responseBase.setStatus(ResponseStateCode.CODE_14001);
                         responseBase.setMessage(e.getSQLState());
                     }
-                }else{
+                } else {
                     responseBase.setStatus(ResponseStateCode.CODE_202);
                     responseBase.setMessage("缺少查询对象ID");
                 }
@@ -122,7 +169,7 @@ public class UserController {
                 responseBase.setStatus(ResponseStateCode.CODE_202);
                 responseBase.setMessage("缺少token");
             }
-        }else{
+        } else {
             responseBase.setStatus(ResponseStateCode.CODE_202);
             responseBase.setMessage("缺少token");
         }

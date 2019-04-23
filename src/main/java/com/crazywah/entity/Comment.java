@@ -3,23 +3,23 @@ package com.crazywah.entity;
 import java.util.Date;
 
 /**
- * create table discussion(
- *   comment_id int auto_increment unique,
- *   moment_id int,
- *   commenter_id varchar(64),
- *   target_id varchar(64),
- *   comment_content text,
- *   comment_time datetime,
- *   primary key (commenter_id, comment_time)
- * )
+ * create table t_comment (
+ * commentId   int auto_increment unique,
+ * momentId    int,
+ * fromId      varchar(64),
+ * toId        varchar(64),
+ * content     text,
+ * commentTime datetime,
+ * primary key (fromId, commentTime)
+ * );
  */
 public class Comment {
 
     private int commentId;
     private int momentId;
-    private String commenterId;
-    private String targetId;
-    private String commentContent;
+    private String fromId;
+    private String toId;
+    private String content;
     private Date commentTime;
 
     public int getCommentId() {
@@ -38,28 +38,28 @@ public class Comment {
         this.momentId = momentId;
     }
 
-    public String getCommenterId() {
-        return commenterId;
+    public String getFromId() {
+        return fromId;
     }
 
-    public void setCommenterId(String commenterId) {
-        this.commenterId = commenterId;
+    public void setFromId(String fromId) {
+        this.fromId = fromId;
     }
 
-    public String getTargetId() {
-        return targetId;
+    public String getToId() {
+        return toId;
     }
 
-    public void setTargetId(String targetId) {
-        this.targetId = targetId;
+    public void setToId(String toId) {
+        this.toId = toId;
     }
 
-    public String getCommentContent() {
-        return commentContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getCommentTime() {

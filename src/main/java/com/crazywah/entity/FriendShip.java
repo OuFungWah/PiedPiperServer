@@ -9,6 +9,7 @@ public class FriendShip {
     public static final int STARED_FRIEND = 2;
     public static final int SP_FOLLOW = 3;
     public static final int BLACK_LIST = 4;
+    public static final int REQUESTING = 5;
 
     /**
      * 主动者 ID
@@ -19,7 +20,7 @@ public class FriendShip {
      */
     private String targetId;
     /**
-     * 关系标识 0-陌生人；1-好友；2-星标朋友；3-特别关注；4-黑名单；
+     * 关系标识 0-陌生人；1-好友；2-星标朋友；3-特别关注；4-黑名单；5-请求中；
      */
     private int relation;
     /**
