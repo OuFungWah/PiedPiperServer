@@ -87,4 +87,25 @@ public interface IMomentDao {
     @Delete("delete from moment where momentId = #{momentId} and accountId = #{account_id}")
     void deleteMoment(@Param("momentId") int id, @Param("account_id") String accountId) throws SQLException;
 
+    @Select("select " +
+            "  b.nickname, " +
+            "  b.avatar, " +
+            "  a.momentId, " +
+            "  a.accountId, " +
+            "  a.postTime, " +
+            "  a.postContent, " +
+            "  a.visiableRange, " +
+            "  a.blackList, " +
+            "  a.whiteList, " +
+            "  a.photoList, " +
+            "  (select count(likeId) " +
+            "   from t_like " +
+            "   where objId = a.momentId AND objType = 1) as likeCount, " +
+            "  (select count(commentId) " +
+            "   from t_comment " +
+            "   where momentId = a.momentId)              as commentCount " +
+            "from moment a left join user b on a.accountId = b.account_id " +
+            "where momentId = #{momentId}")
+    Moment getMomentById(Moment moment) throws SQLException;
+
 }

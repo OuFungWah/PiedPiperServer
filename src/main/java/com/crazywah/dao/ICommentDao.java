@@ -16,7 +16,7 @@ public interface ICommentDao {
             ") VALUES (#{momentId}, #{fromId}, #{toId}, #{content}, #{commentTime})")
     void insertComment(Comment comment) throws SQLException;
 
-    @Select("select * from t_comment where momentId = #{momentId}")
+    @Select("select b.nickname as fromName, b.avatar, a.* from t_comment a left join user b on a.fromId = b.account_id where momentId = #{momentId}")
     List<Comment> getAllCommentByMomentId(@Param("momentId") int momentId) throws SQLException;
 
     @Select("select * from t_comment where momentId = #{momentId}")

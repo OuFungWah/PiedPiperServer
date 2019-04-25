@@ -1,5 +1,6 @@
 package com.crazywah.controller;
 
+import com.crazywah.bean.MomentDetail;
 import com.crazywah.bean.ResponseBase;
 import com.crazywah.bean.SearchMomentBean;
 import com.crazywah.bean.StringListBean;
@@ -161,6 +162,52 @@ public class MomentController {
                     responseBase.setStatus(ResponseStateCode.CODE_200);
                     responseBase.setResult(moments);
                     Log.d(TAG, "data = " + gson.toJson(responseBase));
+                } else {
+                    responseBase.setStatus(ResponseStateCode.CODE_202);
+                    responseBase.setMessage("用户token错误");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                responseBase.setStatus(ResponseStateCode.CODE_202);
+                responseBase.setMessage("数据库操作错误：" + e.getSQLState());
+            }
+        } else {
+            responseBase.setStatus(ResponseStateCode.CODE_202);
+            responseBase.setMessage("缺少token");
+        }
+        return gson.toJson(responseBase);
+    }
+
+    /**
+     * {
+     * "momentId":123
+     * }
+     *
+     * @param body
+     * @param httpHeaders
+     * @return
+     */
+    @PostMapping("/getMomentDetail")
+    public String getMomentDetail(@RequestBody String body, @RequestHeader HttpHeaders httpHeaders) {
+        Moment params = gson.fromJson(body, Moment.class);
+        ResponseBase<MomentDetail> responseBase = new ResponseBase<>();
+        MomentDetail detail = new MomentDetail();
+        if (httpHeaders.containsKey("token")) {
+            String token = httpHeaders.get("token").get(0);
+            try {
+                User user = userService.getUserByToken(token);
+                if (user != null && user.getAccountId() != null) {
+                    Moment result = momentService.getMomentById(params);
+                    if (!TextUtils.isEmpty(result.getAccountId())) {
+                        detail.setMoment(result);
+                        detail.setLikeList(momentService.getLikeListByMomentId(result.getMomentId()));
+                        detail.setCommentList(momentService.getCommentListByMomentId(result.getMomentId()));
+                        responseBase.setStatus(ResponseStateCode.CODE_200);
+                        responseBase.setResult(detail);
+                    }else{
+                        responseBase.setStatus(ResponseStateCode.CODE_202);
+                        responseBase.setMessage("不存在该朋友圈");
+                    }
                 } else {
                     responseBase.setStatus(ResponseStateCode.CODE_202);
                     responseBase.setMessage("用户token错误");

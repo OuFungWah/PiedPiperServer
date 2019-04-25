@@ -15,12 +15,30 @@ import java.util.Date;
  */
 public class Comment {
 
+    private String avatar;
+    private String fromName;
     private int commentId;
     private int momentId;
     private String fromId;
     private String toId;
     private String content;
     private Date commentTime;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
 
     public int getCommentId() {
         return commentId;

@@ -33,7 +33,7 @@ public class MomentService {
         commentDao.insertComment(comment);
     }
 
-    public List<Moment> getAllMoment(String token, int limit, int offset) throws SQLException{
+    public List<Moment> getAllMoment(String token, int limit, int offset) throws SQLException {
         return momentDao.getAllMomentByToken(token, limit, offset);
     }
 
@@ -53,7 +53,7 @@ public class MomentService {
         commentDao.deleteComment(id);
     }
 
-    public void likeMoment(String accountId, int momentId) {
+    public void likeMoment(String accountId, int momentId) throws SQLException {
         Like like = new Like();
         like.setFromId(accountId);
         like.setObjId(momentId);
@@ -62,12 +62,24 @@ public class MomentService {
         likeDao.addLike(like);
     }
 
-    public void dislikeMoment(String accountId, int momentId){
+    public void dislikeMoment(String accountId, int momentId) throws SQLException {
         Like like = new Like();
         like.setFromId(accountId);
         like.setObjId(momentId);
         like.setObjType(Like.TYPE_MOMENT);
         likeDao.deleteLike(like);
+    }
+
+    public Moment getMomentById(Moment moment) throws SQLException {
+        return momentDao.getMomentById(moment);
+    }
+
+    public List<Like> getLikeListByMomentId(int momentId) throws SQLException {
+        return likeDao.getLikesByMomentId(momentId);
+    }
+
+    public List<Comment> getCommentListByMomentId(int momentId) throws SQLException {
+        return commentDao.getAllCommentByMomentId(momentId);
     }
 
 }
