@@ -29,6 +29,11 @@ public interface IMomentDao {
             "  a.blackList, " +
             "  a.whiteList, " +
             "  a.photoList, " +
+            "  (select count(fromId)" +
+            "   from t_like" +
+            "   where fromId = (select account_id" +
+            "                   from user" +
+            "                   where token = #{token}) and objId = a.momentId) as isLiked,"+
             "  (select count(likeId) " +
             "   from t_like " +
             "   where objId = a.momentId AND objType = 1) as likeCount, " +
@@ -98,6 +103,11 @@ public interface IMomentDao {
             "  a.blackList, " +
             "  a.whiteList, " +
             "  a.photoList, " +
+            "  (select count(fromId)" +
+            "   from t_like" +
+            "   where fromId = (select account_id" +
+            "                   from user" +
+            "                   where token = #{token}) and objId = a.momentId) as isLiked,"+
             "  (select count(likeId) " +
             "   from t_like " +
             "   where objId = a.momentId AND objType = 1) as likeCount, " +
@@ -106,6 +116,6 @@ public interface IMomentDao {
             "   where momentId = a.momentId)              as commentCount " +
             "from moment a left join user b on a.accountId = b.account_id " +
             "where momentId = #{momentId}")
-    Moment getMomentById(Moment moment) throws SQLException;
+    Moment getMomentById(@Param("token")String token,@Param("momentId") int momentId) throws SQLException;
 
 }

@@ -17,12 +17,21 @@ public class Comment {
 
     private String avatar;
     private String fromName;
+    private String toName;
     private int commentId;
     private int momentId;
     private String fromId;
     private String toId;
     private String content;
     private Date commentTime;
+
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
 
     public String getAvatar() {
         return avatar;

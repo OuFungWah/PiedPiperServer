@@ -7,11 +7,20 @@ public class Like {
     public static final int TYPE_MOMENT = 1;
     public static final int TYPE_COMMENT = 2;
 
+    private String avatar;
     private int likeId;
     private String fromId;
     private int objId;
     private int objType;
     private Date likeTime;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public int getLikeId() {
         return likeId;

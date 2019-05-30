@@ -13,7 +13,7 @@ public class PictureUtils {
 
     private static final String TAG = "PictureUtils";
 
-    public static final String SERVER = "http://www.crazywah.com:2019/";
+    public static final String SERVER = "http://121.42.205.69:2019/";
     public static final String FILE_PATH = "/root/share/";
 
     /**

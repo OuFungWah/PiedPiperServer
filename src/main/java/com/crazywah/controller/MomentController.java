@@ -197,14 +197,14 @@ public class MomentController {
             try {
                 User user = userService.getUserByToken(token);
                 if (user != null && user.getAccountId() != null) {
-                    Moment result = momentService.getMomentById(params);
+                    Moment result = momentService.getMomentById(token, params);
                     if (!TextUtils.isEmpty(result.getAccountId())) {
                         detail.setMoment(result);
                         detail.setLikeList(momentService.getLikeListByMomentId(result.getMomentId()));
                         detail.setCommentList(momentService.getCommentListByMomentId(result.getMomentId()));
                         responseBase.setStatus(ResponseStateCode.CODE_200);
                         responseBase.setResult(detail);
-                    }else{
+                    } else {
                         responseBase.setStatus(ResponseStateCode.CODE_202);
                         responseBase.setMessage("不存在该朋友圈");
                     }
@@ -263,9 +263,8 @@ public class MomentController {
     /**
      * {
      * "momentId":123,
-     * "toIdId":"ajskhdk",
+     * "toId":"ajskhdk",
      * "content":"asiyudhgkashd",
-     * "commentTime":"1234-23-23 23:23:23"
      * }
      *
      * @param httpHeaders
@@ -282,7 +281,9 @@ public class MomentController {
                 User user = userService.getUserByToken(token);
                 if (user != null && user.getAccountId() != null) {
                     comment.setFromId(user.getAccountId());
-                    momentService.addComment(comment);
+                    comment = momentService.addComment(comment);
+                    responseBase.setStatus(ResponseStateCode.CODE_200);
+                    responseBase.setResult(comment);
                 } else {
                     responseBase.setStatus(ResponseStateCode.CODE_202);
                     responseBase.setMessage("用户token错误");
@@ -347,7 +348,7 @@ public class MomentController {
      */
     @PostMapping("/deleteComment")
     public String deleteComment(@RequestHeader HttpHeaders httpHeaders, @RequestBody String body) {
-        ResponseBase responseBase = new ResponseBase<>();
+        ResponseBase<Comment> responseBase = new ResponseBase<>();
         if (httpHeaders.containsKey("token")) {
             String token = httpHeaders.get("token").get(0);
             Comment comment = gson.fromJson(body, Comment.class);
@@ -356,6 +357,7 @@ public class MomentController {
                 if (user != null && user.getAccountId() != null) {
                     momentService.deleteComment(comment.getCommentId());
                     responseBase.setStatus(ResponseStateCode.CODE_200);
+                    responseBase.setResult(comment);
                 } else {
                     responseBase.setStatus(ResponseStateCode.CODE_202);
                     responseBase.setMessage("用户token错误");

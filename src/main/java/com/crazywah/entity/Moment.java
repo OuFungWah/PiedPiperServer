@@ -16,6 +16,7 @@ import java.util.Date;
  */
 public class Moment {
 
+    private int isLiked;
     private String avatar;
     private String nickname;
     private int momentId;
@@ -28,6 +29,14 @@ public class Moment {
     private String photoList;
     private int likeCount;
     private int commentCount;
+
+    public int getIsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(int isLiked) {
+        this.isLiked = isLiked;
+    }
 
     public String getAvatar() {
         return avatar;

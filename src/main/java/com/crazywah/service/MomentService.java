@@ -29,8 +29,10 @@ public class MomentService {
         momentDao.postMoment(moment);
     }
 
-    public void addComment(Comment comment) throws SQLException {
+    public Comment addComment(Comment comment) throws SQLException {
+        comment.setCommentTime(new Date(System.currentTimeMillis()));
         commentDao.insertComment(comment);
+        return commentDao.getCommentByUserTime(comment);
     }
 
     public List<Moment> getAllMoment(String token, int limit, int offset) throws SQLException {
@@ -70,8 +72,8 @@ public class MomentService {
         likeDao.deleteLike(like);
     }
 
-    public Moment getMomentById(Moment moment) throws SQLException {
-        return momentDao.getMomentById(moment);
+    public Moment getMomentById(String token, Moment moment) throws SQLException {
+        return momentDao.getMomentById(token, moment.getMomentId());
     }
 
     public List<Like> getLikeListByMomentId(int momentId) throws SQLException {

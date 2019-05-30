@@ -16,13 +16,16 @@ public interface ICommentDao {
             ") VALUES (#{momentId}, #{fromId}, #{toId}, #{content}, #{commentTime})")
     void insertComment(Comment comment) throws SQLException;
 
-    @Select("select b.nickname as fromName, b.avatar, a.* from t_comment a left join user b on a.fromId = b.account_id where momentId = #{momentId}")
+    @Select("select b.nickname as fromName, (select nickname from user where account_id = a.toId) as toName, b.avatar, a.* from t_comment a left join user b on a.fromId = b.account_id where momentId = #{momentId} order by a.commentTime")
     List<Comment> getAllCommentByMomentId(@Param("momentId") int momentId) throws SQLException;
 
-    @Select("select * from t_comment where momentId = #{momentId}")
+    @Select("select * from t_comment where momentId = #{momentId}  order by commentTime")
     List<Comment> getCommentByMomentId(@Param("momentId") int momentId, @Param("token") String token) throws SQLException;
 
-    @Delete("delete * form t_comment where commentId = #{id}")
+    @Select("select b.nickname as fromName, (select nickname from user where account_id = a.toId) as toName, b.avatar, a.* from t_comment a left join user b on a.fromId = b.account_id where fromId = #{fromId} and commentTime = #{commentTime}")
+    Comment getCommentByUserTime(Comment comment) throws SQLException;
+
+    @Delete("delete form t_comment where commentId = #{id}")
     void deleteComment(@Param("id") int id) throws SQLException;
 
 }
